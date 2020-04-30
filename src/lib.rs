@@ -4,7 +4,7 @@ use quote::quote;
 use syn::{ReturnType, Type};
 
 #[proc_macro_attribute]
-pub fn async_recursive(attrs: TokenStream, item: TokenStream) -> TokenStream {
+pub fn boxed_async_recursion(attrs: TokenStream, item: TokenStream) -> TokenStream {
     let input = syn::parse_macro_input!(item as syn::ItemFn);
     let attr_args = syn::parse_macro_input!(attrs as syn::AttributeArgs);
 
@@ -30,16 +30,16 @@ pub fn async_recursive(attrs: TokenStream, item: TokenStream) -> TokenStream {
     let body = &input.block;
     let attrs = &input.attrs;
 
-    let result = quote! {
+    let res_fun = quote! {
         #(#attrs)*
         #vis fn #name (#(#args),*) -> BoxFuture<'static, #ret> {
             async move { #body }.boxed()
         }
     };
 
-    let print_tokens = Into::<TokenStream>::into(result.clone());
-    println!("gen fun is {}", print_tokens.to_string());
-    result.into()
+    let print_tokens = Into::<TokenStream>::into(res_fun.clone());
+    println!("Result Function is {}", print_tokens.to_string());
+    res_fun.into()
 }
 
 #[cfg(test)]
