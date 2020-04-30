@@ -3,10 +3,11 @@ This is test cargo crate for helping recursion calls with async/.await
 
 Previosly for writing recursion with async/.await you should make the following trick:
 ```rust
-fn recursive() -> BoxFuture<'static, ()> {
+fn recursive() -> BoxFuture<'static, u8> {
     async move {
         recursive().await;
         recursive().await;
+        2u8
     }.boxed()
 }
 ```
