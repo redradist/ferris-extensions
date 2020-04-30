@@ -44,8 +44,13 @@ pub fn boxed_async_recursion(attrs: TokenStream, item: TokenStream) -> TokenStre
 
 #[cfg(test)]
 mod tests {
+    use proc_macro::TokenStream;
+
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
+        let origin_token_stream: TokenStream = "async fn answer() -> u32 { 42 }".parse().unwrap();
+        let new_token_stream = super::boxed_async_recursion(TokenStream::new(), origin_token_stream);
+        let expected_token_stream: TokenStream = "fn answer() -> BoxFuture<'static, u32> { async move { 42 }.boxed() }".parse().unwrap();
+        assert_eq!(new_token_stream.to_string(), expected_token_stream.to_string());
     }
 }
