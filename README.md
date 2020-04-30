@@ -14,7 +14,7 @@ fn recursive() -> BoxFuture<'static, u8> {
 
 With this crate it is possible to simplify code as follows:
 ```rust
-#[async_recursive]
+#[boxed_async_recursion]
 async fn recursive(k: u8, l: u32) -> u8 {
     recursive(k, l).await;
     recursive(k, l).await;
