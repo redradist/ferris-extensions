@@ -41,16 +41,3 @@ pub fn boxed_async_recursion(attrs: TokenStream, item: TokenStream) -> TokenStre
     println!("Result Function is {}", print_tokens.to_string());
     res_fun.into()
 }
-
-#[cfg(test)]
-mod tests {
-    use proc_macro::TokenStream;
-
-    #[test]
-    fn it_works() {
-        let origin_token_stream: TokenStream = "async fn answer() -> u32 { 42 }".parse().unwrap();
-        let new_token_stream = super::boxed_async_recursion(TokenStream::new(), origin_token_stream);
-        let expected_token_stream: TokenStream = "fn answer() -> BoxFuture<'static, u32> { async move { 42 }.boxed() }".parse().unwrap();
-        assert_eq!(new_token_stream.to_string(), expected_token_stream.to_string());
-    }
-}
