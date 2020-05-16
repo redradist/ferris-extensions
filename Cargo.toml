@@ -1,5 +1,5 @@
 [package]
-name = "async_helpers"
+name = "ferris_extensions"
 version = "0.1.0"
 authors = ["redradist <redradist@gmail.com>"]
 edition = "2018"
@@ -10,6 +10,7 @@ edition = "2018"
 proc-macro2 = "1.0.7"
 quote = "1"
 syn = { version = "1.0.3", features = ["full"] }
+Inflector = "0.11.4"
 
 [lib]
 proc-macro = true
